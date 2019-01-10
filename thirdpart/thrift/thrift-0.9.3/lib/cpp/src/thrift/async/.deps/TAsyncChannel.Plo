@@ -1,0 +1,541 @@
+src/thrift/async/TAsyncChannel.lo: src/thrift/async/TAsyncChannel.cpp \
+ src/thrift/async/TAsyncChannel.h src/thrift/cxxfunctional.h \
+ /usr/local/include/c++/4.8.5/tr1/functional \
+ /usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/c++config.h \
+ /usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/os_defines.h \
+ /usr/include/features.h /usr/include/sys/cdefs.h \
+ /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+ /usr/include/gnu/stubs-64.h \
+ /usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/cpu_defines.h \
+ /usr/local/include/c++/4.8.5/bits/stl_function.h \
+ /usr/local/include/c++/4.8.5/backward/binders.h \
+ /usr/local/include/c++/4.8.5/typeinfo \
+ /usr/local/include/c++/4.8.5/exception \
+ /usr/local/include/c++/4.8.5/bits/atomic_lockfree_defines.h \
+ /usr/local/include/c++/4.8.5/bits/exception_ptr.h \
+ /usr/local/include/c++/4.8.5/bits/exception_defines.h \
+ /usr/local/include/c++/4.8.5/bits/nested_exception.h \
+ /usr/local/include/c++/4.8.5/bits/hash_bytes.h \
+ /usr/local/include/c++/4.8.5/new /usr/local/include/c++/4.8.5/tr1/tuple \
+ /usr/local/include/c++/4.8.5/utility \
+ /usr/local/include/c++/4.8.5/bits/stl_relops.h \
+ /usr/local/include/c++/4.8.5/bits/stl_pair.h \
+ /usr/local/include/c++/4.8.5/bits/move.h \
+ /usr/local/include/c++/4.8.5/bits/concept_check.h \
+ /usr/local/include/c++/4.8.5/type_traits \
+ /usr/local/include/c++/4.8.5/initializer_list \
+ /usr/local/include/c++/4.8.5/tr1/type_traits \
+ /usr/local/include/c++/4.8.5/bits/stringfwd.h \
+ /usr/local/include/c++/4.8.5/bits/memoryfwd.h \
+ /usr/local/include/c++/4.8.5/tr1/functional_hash.h \
+ /usr/local/include/c++/4.8.5/ext/type_traits.h \
+ /usr/local/include/c++/4.8.5/bits/cpp_type_traits.h src/thrift/Thrift.h \
+ src/thrift/transport/PlatformSocket.h /usr/include/errno.h \
+ /usr/include/bits/errno.h /usr/include/linux/errno.h \
+ /usr/include/asm/errno.h /usr/include/asm-generic/errno.h \
+ /usr/include/asm-generic/errno-base.h src/thrift/thrift-config.h \
+ src/thrift/config.h /usr/include/stdio.h \
+ /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.8.5/include/stddef.h \
+ /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+ /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.8.5/include/stdarg.h \
+ /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+ /usr/include/bits/stdio.h /usr/include/assert.h /usr/include/sys/types.h \
+ /usr/include/time.h /usr/include/endian.h /usr/include/bits/endian.h \
+ /usr/include/bits/byteswap.h /usr/include/sys/select.h \
+ /usr/include/bits/select.h /usr/include/bits/sigset.h \
+ /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+ /usr/include/bits/pthreadtypes.h /usr/include/netinet/in.h \
+ /usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.8.5/include/stdint.h \
+ /usr/include/stdint.h /usr/include/bits/wchar.h \
+ /usr/include/sys/socket.h /usr/include/sys/uio.h /usr/include/bits/uio.h \
+ /usr/include/bits/socket.h /usr/include/bits/sockaddr.h \
+ /usr/include/asm/socket.h /usr/include/asm-generic/socket.h \
+ /usr/include/asm/sockios.h /usr/include/asm-generic/sockios.h \
+ /usr/include/bits/in.h /usr/include/inttypes.h \
+ /usr/local/include/c++/4.8.5/string \
+ /usr/local/include/c++/4.8.5/bits/char_traits.h \
+ /usr/local/include/c++/4.8.5/bits/stl_algobase.h \
+ /usr/local/include/c++/4.8.5/bits/functexcept.h \
+ /usr/local/include/c++/4.8.5/ext/numeric_traits.h \
+ /usr/local/include/c++/4.8.5/bits/stl_iterator_base_types.h \
+ /usr/local/include/c++/4.8.5/bits/stl_iterator_base_funcs.h \
+ /usr/local/include/c++/4.8.5/debug/debug.h \
+ /usr/local/include/c++/4.8.5/bits/stl_iterator.h \
+ /usr/local/include/c++/4.8.5/bits/postypes.h \
+ /usr/local/include/c++/4.8.5/cwchar /usr/include/xlocale.h \
+ /usr/local/include/c++/4.8.5/cstdint \
+ /usr/local/include/c++/4.8.5/bits/allocator.h \
+ /usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/c++allocator.h \
+ /usr/local/include/c++/4.8.5/ext/new_allocator.h \
+ /usr/local/include/c++/4.8.5/bits/localefwd.h \
+ /usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/c++locale.h \
+ /usr/local/include/c++/4.8.5/clocale /usr/include/locale.h \
+ /usr/include/bits/locale.h /usr/local/include/c++/4.8.5/iosfwd \
+ /usr/local/include/c++/4.8.5/cctype /usr/include/ctype.h \
+ /usr/local/include/c++/4.8.5/bits/ostream_insert.h \
+ /usr/local/include/c++/4.8.5/bits/cxxabi_forced.h \
+ /usr/local/include/c++/4.8.5/bits/range_access.h \
+ /usr/local/include/c++/4.8.5/bits/basic_string.h \
+ /usr/local/include/c++/4.8.5/ext/atomicity.h \
+ /usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/gthr.h \
+ /usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h /usr/include/bits/sched.h \
+ /usr/include/bits/setjmp.h \
+ /usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/atomic_word.h \
+ /usr/local/include/c++/4.8.5/ext/string_conversions.h \
+ /usr/local/include/c++/4.8.5/cstdlib /usr/include/stdlib.h \
+ /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+ /usr/include/alloca.h /usr/local/include/c++/4.8.5/cstdio \
+ /usr/local/include/c++/4.8.5/cerrno \
+ /usr/local/include/c++/4.8.5/bits/functional_hash.h \
+ /usr/local/include/c++/4.8.5/bits/basic_string.tcc \
+ /usr/local/include/c++/4.8.5/map \
+ /usr/local/include/c++/4.8.5/bits/stl_tree.h \
+ /usr/local/include/c++/4.8.5/bits/alloc_traits.h \
+ /usr/local/include/c++/4.8.5/bits/ptr_traits.h \
+ /usr/local/include/c++/4.8.5/bits/stl_map.h \
+ /usr/local/include/c++/4.8.5/tuple /usr/local/include/c++/4.8.5/array \
+ /usr/local/include/c++/4.8.5/stdexcept \
+ /usr/local/include/c++/4.8.5/bits/uses_allocator.h \
+ /usr/local/include/c++/4.8.5/bits/stl_multimap.h \
+ /usr/local/include/c++/4.8.5/list \
+ /usr/local/include/c++/4.8.5/bits/stl_list.h \
+ /usr/local/include/c++/4.8.5/bits/list.tcc \
+ /usr/local/include/c++/4.8.5/set \
+ /usr/local/include/c++/4.8.5/bits/stl_set.h \
+ /usr/local/include/c++/4.8.5/bits/stl_multiset.h \
+ /usr/local/include/c++/4.8.5/vector \
+ /usr/local/include/c++/4.8.5/bits/stl_construct.h \
+ /usr/local/include/c++/4.8.5/ext/alloc_traits.h \
+ /usr/local/include/c++/4.8.5/bits/stl_uninitialized.h \
+ /usr/local/include/c++/4.8.5/bits/stl_vector.h \
+ /usr/local/include/c++/4.8.5/bits/stl_bvector.h \
+ /usr/local/include/c++/4.8.5/bits/vector.tcc \
+ /usr/local/include/boost/utility/enable_if.hpp \
+ /usr/local/include/boost/core/enable_if.hpp \
+ /usr/local/include/boost/config.hpp \
+ /usr/local/include/boost/config/user.hpp \
+ /usr/local/include/boost/config/select_compiler_config.hpp \
+ /usr/local/include/boost/config/compiler/gcc.hpp \
+ /usr/local/include/c++/4.8.5/cstddef \
+ /usr/local/include/boost/config/select_stdlib_config.hpp \
+ /usr/local/include/boost/config/stdlib/libstdcpp3.hpp \
+ /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+ /usr/include/bits/environments.h /usr/include/bits/confname.h \
+ /usr/include/getopt.h \
+ /usr/local/include/boost/config/select_platform_config.hpp \
+ /usr/local/include/boost/config/platform/linux.hpp \
+ /usr/local/include/boost/config/posix_features.hpp \
+ /usr/local/include/boost/config/suffix.hpp \
+ /usr/local/include/boost/type_traits/is_convertible.hpp \
+ /usr/local/include/boost/type_traits/intrinsics.hpp \
+ /usr/local/include/boost/type_traits/detail/config.hpp \
+ /usr/local/include/boost/version.hpp \
+ /usr/local/include/boost/detail/workaround.hpp \
+ /usr/local/include/boost/type_traits/integral_constant.hpp \
+ /usr/local/include/boost/type_traits/detail/yes_no_type.hpp \
+ /usr/local/include/boost/type_traits/is_array.hpp \
+ /usr/local/include/boost/type_traits/is_arithmetic.hpp \
+ /usr/local/include/boost/type_traits/is_integral.hpp \
+ /usr/local/include/boost/type_traits/is_floating_point.hpp \
+ /usr/local/include/boost/type_traits/is_void.hpp \
+ /usr/local/include/boost/type_traits/is_abstract.hpp \
+ /usr/local/include/boost/type_traits/add_lvalue_reference.hpp \
+ /usr/local/include/boost/type_traits/add_reference.hpp \
+ /usr/local/include/boost/type_traits/add_rvalue_reference.hpp \
+ /usr/local/include/boost/type_traits/is_reference.hpp \
+ /usr/local/include/boost/type_traits/is_lvalue_reference.hpp \
+ /usr/local/include/boost/type_traits/is_rvalue_reference.hpp \
+ /usr/local/include/boost/type_traits/is_function.hpp \
+ /usr/local/include/boost/type_traits/detail/is_function_ptr_helper.hpp \
+ /usr/local/include/boost/type_traits/declval.hpp src/thrift/TLogging.h \
+ src/thrift/TOutput.h
+
+src/thrift/async/TAsyncChannel.h:
+
+src/thrift/cxxfunctional.h:
+
+/usr/local/include/c++/4.8.5/tr1/functional:
+
+/usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/c++config.h:
+
+/usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/os_defines.h:
+
+/usr/include/features.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/gnu/stubs-64.h:
+
+/usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/cpu_defines.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_function.h:
+
+/usr/local/include/c++/4.8.5/backward/binders.h:
+
+/usr/local/include/c++/4.8.5/typeinfo:
+
+/usr/local/include/c++/4.8.5/exception:
+
+/usr/local/include/c++/4.8.5/bits/atomic_lockfree_defines.h:
+
+/usr/local/include/c++/4.8.5/bits/exception_ptr.h:
+
+/usr/local/include/c++/4.8.5/bits/exception_defines.h:
+
+/usr/local/include/c++/4.8.5/bits/nested_exception.h:
+
+/usr/local/include/c++/4.8.5/bits/hash_bytes.h:
+
+/usr/local/include/c++/4.8.5/new:
+
+/usr/local/include/c++/4.8.5/tr1/tuple:
+
+/usr/local/include/c++/4.8.5/utility:
+
+/usr/local/include/c++/4.8.5/bits/stl_relops.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_pair.h:
+
+/usr/local/include/c++/4.8.5/bits/move.h:
+
+/usr/local/include/c++/4.8.5/bits/concept_check.h:
+
+/usr/local/include/c++/4.8.5/type_traits:
+
+/usr/local/include/c++/4.8.5/initializer_list:
+
+/usr/local/include/c++/4.8.5/tr1/type_traits:
+
+/usr/local/include/c++/4.8.5/bits/stringfwd.h:
+
+/usr/local/include/c++/4.8.5/bits/memoryfwd.h:
+
+/usr/local/include/c++/4.8.5/tr1/functional_hash.h:
+
+/usr/local/include/c++/4.8.5/ext/type_traits.h:
+
+/usr/local/include/c++/4.8.5/bits/cpp_type_traits.h:
+
+src/thrift/Thrift.h:
+
+src/thrift/transport/PlatformSocket.h:
+
+/usr/include/errno.h:
+
+/usr/include/bits/errno.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/asm/errno.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+src/thrift/thrift-config.h:
+
+src/thrift/config.h:
+
+/usr/include/stdio.h:
+
+/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.8.5/include/stddef.h:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.8.5/include/stdarg.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/bits/sys_errlist.h:
+
+/usr/include/bits/stdio.h:
+
+/usr/include/assert.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/time.h:
+
+/usr/include/endian.h:
+
+/usr/include/bits/endian.h:
+
+/usr/include/bits/byteswap.h:
+
+/usr/include/sys/select.h:
+
+/usr/include/bits/select.h:
+
+/usr/include/bits/sigset.h:
+
+/usr/include/bits/time.h:
+
+/usr/include/sys/sysmacros.h:
+
+/usr/include/bits/pthreadtypes.h:
+
+/usr/include/netinet/in.h:
+
+/usr/local/lib/gcc/x86_64-unknown-linux-gnu/4.8.5/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/bits/wchar.h:
+
+/usr/include/sys/socket.h:
+
+/usr/include/sys/uio.h:
+
+/usr/include/bits/uio.h:
+
+/usr/include/bits/socket.h:
+
+/usr/include/bits/sockaddr.h:
+
+/usr/include/asm/socket.h:
+
+/usr/include/asm-generic/socket.h:
+
+/usr/include/asm/sockios.h:
+
+/usr/include/asm-generic/sockios.h:
+
+/usr/include/bits/in.h:
+
+/usr/include/inttypes.h:
+
+/usr/local/include/c++/4.8.5/string:
+
+/usr/local/include/c++/4.8.5/bits/char_traits.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_algobase.h:
+
+/usr/local/include/c++/4.8.5/bits/functexcept.h:
+
+/usr/local/include/c++/4.8.5/ext/numeric_traits.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_iterator_base_types.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_iterator_base_funcs.h:
+
+/usr/local/include/c++/4.8.5/debug/debug.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_iterator.h:
+
+/usr/local/include/c++/4.8.5/bits/postypes.h:
+
+/usr/local/include/c++/4.8.5/cwchar:
+
+/usr/include/xlocale.h:
+
+/usr/local/include/c++/4.8.5/cstdint:
+
+/usr/local/include/c++/4.8.5/bits/allocator.h:
+
+/usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/c++allocator.h:
+
+/usr/local/include/c++/4.8.5/ext/new_allocator.h:
+
+/usr/local/include/c++/4.8.5/bits/localefwd.h:
+
+/usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/c++locale.h:
+
+/usr/local/include/c++/4.8.5/clocale:
+
+/usr/include/locale.h:
+
+/usr/include/bits/locale.h:
+
+/usr/local/include/c++/4.8.5/iosfwd:
+
+/usr/local/include/c++/4.8.5/cctype:
+
+/usr/include/ctype.h:
+
+/usr/local/include/c++/4.8.5/bits/ostream_insert.h:
+
+/usr/local/include/c++/4.8.5/bits/cxxabi_forced.h:
+
+/usr/local/include/c++/4.8.5/bits/range_access.h:
+
+/usr/local/include/c++/4.8.5/bits/basic_string.h:
+
+/usr/local/include/c++/4.8.5/ext/atomicity.h:
+
+/usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/gthr.h:
+
+/usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/gthr-default.h:
+
+/usr/include/pthread.h:
+
+/usr/include/sched.h:
+
+/usr/include/bits/sched.h:
+
+/usr/include/bits/setjmp.h:
+
+/usr/local/include/c++/4.8.5/x86_64-unknown-linux-gnu/bits/atomic_word.h:
+
+/usr/local/include/c++/4.8.5/ext/string_conversions.h:
+
+/usr/local/include/c++/4.8.5/cstdlib:
+
+/usr/include/stdlib.h:
+
+/usr/include/bits/waitflags.h:
+
+/usr/include/bits/waitstatus.h:
+
+/usr/include/alloca.h:
+
+/usr/local/include/c++/4.8.5/cstdio:
+
+/usr/local/include/c++/4.8.5/cerrno:
+
+/usr/local/include/c++/4.8.5/bits/functional_hash.h:
+
+/usr/local/include/c++/4.8.5/bits/basic_string.tcc:
+
+/usr/local/include/c++/4.8.5/map:
+
+/usr/local/include/c++/4.8.5/bits/stl_tree.h:
+
+/usr/local/include/c++/4.8.5/bits/alloc_traits.h:
+
+/usr/local/include/c++/4.8.5/bits/ptr_traits.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_map.h:
+
+/usr/local/include/c++/4.8.5/tuple:
+
+/usr/local/include/c++/4.8.5/array:
+
+/usr/local/include/c++/4.8.5/stdexcept:
+
+/usr/local/include/c++/4.8.5/bits/uses_allocator.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_multimap.h:
+
+/usr/local/include/c++/4.8.5/list:
+
+/usr/local/include/c++/4.8.5/bits/stl_list.h:
+
+/usr/local/include/c++/4.8.5/bits/list.tcc:
+
+/usr/local/include/c++/4.8.5/set:
+
+/usr/local/include/c++/4.8.5/bits/stl_set.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_multiset.h:
+
+/usr/local/include/c++/4.8.5/vector:
+
+/usr/local/include/c++/4.8.5/bits/stl_construct.h:
+
+/usr/local/include/c++/4.8.5/ext/alloc_traits.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_uninitialized.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_vector.h:
+
+/usr/local/include/c++/4.8.5/bits/stl_bvector.h:
+
+/usr/local/include/c++/4.8.5/bits/vector.tcc:
+
+/usr/local/include/boost/utility/enable_if.hpp:
+
+/usr/local/include/boost/core/enable_if.hpp:
+
+/usr/local/include/boost/config.hpp:
+
+/usr/local/include/boost/config/user.hpp:
+
+/usr/local/include/boost/config/select_compiler_config.hpp:
+
+/usr/local/include/boost/config/compiler/gcc.hpp:
+
+/usr/local/include/c++/4.8.5/cstddef:
+
+/usr/local/include/boost/config/select_stdlib_config.hpp:
+
+/usr/local/include/boost/config/stdlib/libstdcpp3.hpp:
+
+/usr/include/unistd.h:
+
+/usr/include/bits/posix_opt.h:
+
+/usr/include/bits/environments.h:
+
+/usr/include/bits/confname.h:
+
+/usr/include/getopt.h:
+
+/usr/local/include/boost/config/select_platform_config.hpp:
+
+/usr/local/include/boost/config/platform/linux.hpp:
+
+/usr/local/include/boost/config/posix_features.hpp:
+
+/usr/local/include/boost/config/suffix.hpp:
+
+/usr/local/include/boost/type_traits/is_convertible.hpp:
+
+/usr/local/include/boost/type_traits/intrinsics.hpp:
+
+/usr/local/include/boost/type_traits/detail/config.hpp:
+
+/usr/local/include/boost/version.hpp:
+
+/usr/local/include/boost/detail/workaround.hpp:
+
+/usr/local/include/boost/type_traits/integral_constant.hpp:
+
+/usr/local/include/boost/type_traits/detail/yes_no_type.hpp:
+
+/usr/local/include/boost/type_traits/is_array.hpp:
+
+/usr/local/include/boost/type_traits/is_arithmetic.hpp:
+
+/usr/local/include/boost/type_traits/is_integral.hpp:
+
+/usr/local/include/boost/type_traits/is_floating_point.hpp:
+
+/usr/local/include/boost/type_traits/is_void.hpp:
+
+/usr/local/include/boost/type_traits/is_abstract.hpp:
+
+/usr/local/include/boost/type_traits/add_lvalue_reference.hpp:
+
+/usr/local/include/boost/type_traits/add_reference.hpp:
+
+/usr/local/include/boost/type_traits/add_rvalue_reference.hpp:
+
+/usr/local/include/boost/type_traits/is_reference.hpp:
+
+/usr/local/include/boost/type_traits/is_lvalue_reference.hpp:
+
+/usr/local/include/boost/type_traits/is_rvalue_reference.hpp:
+
+/usr/local/include/boost/type_traits/is_function.hpp:
+
+/usr/local/include/boost/type_traits/detail/is_function_ptr_helper.hpp:
+
+/usr/local/include/boost/type_traits/declval.hpp:
+
+src/thrift/TLogging.h:
+
+src/thrift/TOutput.h:

@@ -1,0 +1,16 @@
+
+
+thrift主要分为以下几种层次模块：
+
+底层io模块，负责实际的数据传输，包括socket、文件或压缩数据流等。
+transport层负责以字节流方式发送和接收消息，是底层io模块在thrift框架中的实现，每一个底层io模块都会有一个对于TTransport来负责thrift的字节流（byte stream）数据在该io模块上的传输。例如，TSocket对应socket传输，TFileTransport对应文件传输。
+
+TProtocol主要负责结构化数据组装成消息，或者从消息结构中读出结构化数据。TProtocol将一个有类型的数据转化为特定类型的数据。如int32会被TBinaryProtocol编码为一个4字节数据，或TBinaryProtocol从TTransport中取出4个字节数据解码为int32。
+
+TServer负责接收client请求，并将请求转发到processor进行处理。TServer主要任务是高效地接受client的请求，特别是高并发请求的情况下快速完成请求。
+
+processor负责对client的请求进行响应，包括rpc请求转发，调用参数解析和用户逻辑调用，返回值写回等处理步骤。processor是服务端从thrift框架转入用户逻辑的关键流程。processor同时也负责向消息结构中写入数据或读出数据。
+
+
+
+
