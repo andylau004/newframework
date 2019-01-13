@@ -55,13 +55,14 @@ public:
     inline void         SetPeerIp(const std::string& info) {m_peerIp = info;}
 
 protected:
-    int32_t read_sock(/*uint8_t * buf, uint32_t len*/);
+//    int32_t read_sock(/*uint8_t * buf, uint32_t len*/);
+    int32_t read_sock_buffer_len(uint8_t * buf, uint32_t len);
 
     bool read_data();
     bool write_data();
 
 protected:
-    Buffer          m_inputBuffer_;
+    Buffer          m_in_buffer_;
     Buffer          m_outputBuffer_; // FIXME: use list<Buffer> as output buffer.
 
     SOCKET          m_socket;

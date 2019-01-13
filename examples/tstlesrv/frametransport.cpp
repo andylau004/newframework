@@ -16,7 +16,8 @@ CFrameTransport::CFrameTransport()
     : m_socket_state(SOCKET_RECV_FRAMING),
       m_appState(APP_INIT),
       m_serverState(SERVER_READ),
-      m_readWant(0)
+      m_readWant(0),
+      m_rd_sock_State(SOCKET_RECV_FRAMING)
 
 {
 
@@ -34,10 +35,11 @@ bool CFrameTransport::init() {
 //            return false;
 //        }
 //    }
+    m_rd_sock_State = SOCKET_RECV_FRAMING;
 
-    m_socket_state = SOCKET_RECV_FRAMING;
-    m_appState    = APP_INIT;
-    m_serverState = SERVER_READ;
+//    m_socket_state = SOCKET_RECV_FRAMING;
+//    m_appState    = APP_INIT;
+//    m_serverState = SERVER_READ;
     m_readWant    = 0;
     return true;
 }
@@ -87,10 +89,14 @@ void CFrameTransport::rd_transition() {
             // 通知上层应用处理用户数据包，应用层处理完成后，触发写操作
             SignalReadSocketDone();
 
-            m_socket_state = SOCKET_RECV_FRAMING;
-//            m_appState    = APP_INIT;
-            m_serverState = SERVER_READ;
-            m_readWant    = 0;
+            m_rd_sock_State = SOCKET_RECV_FRAMING;
+            m_rd_app_state  = APP_READ_FRAME_SIZE;
+            m_readWant      = 0;
+
+//            m_socket_state = SOCKET_RECV_FRAMING;
+////            m_appState    = APP_INIT;
+//            m_serverState = SERVER_READ;
+//            m_readWant    = 0;
 
             /* 这个逻辑再考虑下实现
              * 先考虑，上层应用，拷贝数据给outbuffer_，使用outbuffer写给客户端
@@ -130,28 +136,28 @@ void CFrameTransport::read_socket(int cfd) {
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    read_framing();
+//    read_framing();
     ////////////////////////////////////////////////////////////////////////////
-//    switch (m_rd_sock_State) {
-//    case SOCKET_RECV_FRAMING:
-////        if (!funcCheckState()) return;
-//        LOG_INFO << ", RECV_FRAMING cfd: " << cfd;
-//        if (read_framing()) {
-//            rd_transition();
-//        }
-//        break;
-//    case SOCKET_RECV:
-////        if (!funcCheckState()) return;
-//        LOG_INFO << ", RECV cfd: " << cfd;
-//        if (read_data()) {// 只有数据读取完成 返回true后，才会触发下一步，提交应用层逻辑
-//            rd_transition();
-//        }
-//        break;
-//    default:
-//        LOG_ERROR << ", unknown state,  DEFAULT sd " << cfd;
-//        SignalCloseSocket();
-//        break;
-//    }
+    switch (m_rd_sock_State) {
+    case SOCKET_RECV_FRAMING:
+//        if (!funcCheckState()) return;
+        LOG_INFO << ", RECV_FRAMING cfd: " << cfd;
+        if (read_framing()) {
+            rd_transition();
+        }
+        break;
+    case SOCKET_RECV:
+//        if (!funcCheckState()) return;
+        LOG_INFO << ", RECV_DATA cfd: " << cfd;
+        if (read_data()) {// 只有数据读取完成 返回true后，才会触发下一步，提交应用层逻辑
+            rd_transition();
+        }
+        break;
+    default:
+        LOG_ERROR << ", unknown state,  DEFAULT sd " << cfd;
+        SignalCloseSocket();
+        break;
+    }
 }
 void CFrameTransport::work_socket(int cfd) {
 //    if (m_socket == INVALID_SOCKET || m_appState == APP_INIT) {
@@ -202,45 +208,79 @@ void CFrameTransport::work_socket(int cfd) {
 }
 // for test
 std::string CFrameTransport::GetMsg() {
-    return m_inputBuffer_.retrieveAsString(m_readWant);
+    int datalen = m_in_buffer_.peekInt32_FromReserve/*peekInt32*/();
+    LOG_DEBUG << " peekInt32_FromReserve datalen=" << datalen;
+
+//    m_in_buffer_.retrieve( sizeof(int32_t) );
+    return m_in_buffer_.retrieveAsString( datalen );
+}
+int32_t CFrameTransport::GetRemainLen() {
+    return m_in_buffer_.readableBytes();
 }
 bool CFrameTransport::read_framing() {
-    int32_t irecv = read_sock();// 此处并没有限制读取４字节，尽量让socket读取更多的数据，增加吞吐量
-    if (0 == irecv) {
+//    m_in_buffer_.ensureWritableBytes( sizeof(int32_t) );
+    int32_t readlen = sizeof(int32_t);
+
+    // 数据长度,保存在预留字段8字节的前4字节
+    int32_t recvBytes = read_sock_buffer_len( (uint8_t*)m_in_buffer_.begin/*beginWrite*/(), readlen );
+    LOG_DEBUG << "recvBytes=" << recvBytes;
+    if (recvBytes <= 0) {
+        SignalCloseSocket();
+        LOG_ERROR << "read_framing recvBytes == 0 some error happened!!!";
         return false;
     }
+//    m_in_buffer_.hasWritten( readlen );
 
-    m_readWant = m_inputBuffer_.peekInt32();
+    m_readWant = m_in_buffer_.peekInt32_FromReserve/*peekInt32*/();
     if (m_readWant <= 0) {
+        SignalCloseSocket();
         LOG_ERROR << " readwant <= 0 fatal error, val=" << m_readWant;
-        return true;// 后续函数会处理这种情况
+        return false;
     }
+//    m_in_buffer_.retrieve( sizeof(int32_t) );
+//    LOG_DEBUG << "m_readWant=" << m_readWant;
+//    LOG_INFO << "readwhat=" << m_readWant << ", peek=" << m_in_buffer_.peek();
 
-//    LOG_INFO << "readwhat=" << m_readWant << ", peek=" << m_inputBuffer_.peek();
-    m_inputBuffer_.retrieve(sizeof(int32_t));
     m_rd_app_state = APP_READ_FRAME_SIZE;
-
-    if (m_inputBuffer_.readableBytes() >= m_readWant) {
+    if (m_in_buffer_.readableBytes() >= m_readWant) {
+        LOG_DEBUG << " unreachable inbuffer readablebytes: " << m_in_buffer_.readableBytes() << " >= readWant: " << m_readWant;
         SignalReadSocketDone();
-
 //        m_socket_state = SOCKET_RECV_FRAMING;
 //        m_appState    = APP_INIT;
 //        m_serverState = SERVER_READ;
 //        m_readWant    = 0;
+    } else {//
+//        LOG_DEBUG << "inbuffer readablebytes:" << m_in_buffer_.readableBytes() << " < readWant:" << m_readWant;
     }
     return true;
 }
 bool CFrameTransport::read_data() {
-    int32_t irecv = read_sock();
-    if (0 == irecv) {
+    if (m_readWant <= 0) {
+        SignalCloseSocket();
+        LOG_ERROR << "bad readwant val, maybe val no yet reset!!!";
         return false;
     }
+    m_in_buffer_.ensureWritableBytes( m_readWant );
 
-    size_t lenRdable = m_inputBuffer_.readableBytes();
-    if (lenRdable < m_readWant) {// 如果数据长度，小于帧头中长度，需要继续读，保证用户发送内容，被完整读取
-        LOG_INFO << "lenRdable:" << lenRdable << " < m_readWant:" << m_readWant << " need read more";
+    int32_t shouldreadbytes = m_readWant - m_in_buffer_.readableBytes();
+//    if (shouldreadbytes > 0) {
+//        // 如果是第二次执行到此函数 -- 说明上次,读取数据body,没有一次性读取完成,需要再次触发,读取剩余数据body
+//        LOG_DEBUG << "some thing!!! readWhat=" << m_readWant << ", shouldreadbytes=" << shouldreadbytes;
+//    }
 
-        irecv = read_sock();
+    int32_t recvBytes = read_sock_buffer_len( (uint8_t*)m_in_buffer_.beginWrite(), shouldreadbytes );
+//    LOG_DEBUG << "shouldreadbytes=" << shouldreadbytes << " recvBytes=" << recvBytes << " readWhat=" << m_readWant;
+    if (recvBytes <= 0) {
+        SignalCloseSocket();
+        LOG_ERROR << "read_data recvBytes == 0 some error happened!!! recvBytes=" << recvBytes;
+        return false;
+    }
+    m_in_buffer_.hasWritten( recvBytes );
+
+    size_t lenRdable = m_in_buffer_.readableBytes();
+    if (lenRdable < m_readWant) {// 如果可读数据长度，小于帧头中长度，需要继续读，保证用户发送内容，被完整读取
+        LOG_INFO << "need look! lenRdable:" << lenRdable << " < readWant:" << m_readWant << " need read more";
+//        irecv = read_sock();
         return false;
     } else {// 只有读取数据包的长度 >= 帧头内长度值，再返回true，然后进入下一步逻辑
         LOG_INFO << "lenRdable:" << lenRdable << " >= m_readWant:" << m_readWant;

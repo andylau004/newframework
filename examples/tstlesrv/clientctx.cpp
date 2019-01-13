@@ -38,7 +38,12 @@ public:
     }
     void EchoIt( const std::string& onmsg ) {
         int remainBytes = m_pTransport->write_buffer( (const uint8_t *)onmsg.data(), onmsg.size() );
-        LOG_INFO << "remainBytes=" << remainBytes;
+        if (remainBytes > 0) {
+            LOG_INFO << "send to client, remainBytes>0, remainBytes=" << remainBytes;
+        } else if (remainBytes < 0) {
+            LOG_INFO << "send to client, remainBytes<0, remainBytes=" << remainBytes;
+        }
+//        LOG_INFO << "send to client, remainBytes=" << remainBytes;
 //        if (remainBytes == 0) {
 //        } else if (remainBytes > 0) {//
 //            Signal_Write_Response();
@@ -111,8 +116,10 @@ bool ClientCtx::init(Item_t * item) {
         m_transport->SignalCloseSocket.connect(this, &ClientCtx::on_closesocket);
 //        m_transport->SignalClientCloseSocket.connect(this, &ClientCtx::on_clientclosesocket);
         m_transport->SignalReadSocketDone.connect(this, &ClientCtx::on_readsocketdone);
+
         m_transport->SignalSetWriteState.connect(this, &ClientCtx::on_setwritestate);
-//        m_transport->SignalSetReadState.connect(this, &ClientCtx::on_setreadstate);
+        m_transport->SignalSetReadState.connect(this, &ClientCtx::on_setreadstate);
+
 //        m_transport->SingalRecvSomeData.connect(this, &ClientCtx::on_recvsomedata);
         m_transport->Signal_ClearWriteEvent.connect(this, &ClientCtx::set_write_idle_ctxnew);
     }
@@ -173,11 +180,12 @@ void ClientCtx::on_readsocketdone() {
     // -----------------------------------------------------------------------
     // 测试------------业务处理逻辑
     std::string oneMsg = m_transport->GetMsg();
-    if (oneMsg.size() != m_transport->m_readWant) {
-        LOG_ERROR << "some error! oneMsg.size():" << oneMsg.size() << " != m_transport->m_readWant: " << m_transport->m_readWant;
+    if (oneMsg.size() == 0) {
+        LOG_ERROR << "some error! oneMsg.size():" << oneMsg.size()/* << " != m_transport->m_readWant: " << m_transport->m_readWant*/;
     } else {
-        m_transport->m_readWant = 0;
-        LOG_INFO << "from client: " << m_transport->GetPeerIp() << ", msg=" << oneMsg;
+        LOG_INFO << "from client: " << m_transport->GetPeerIp()
+                 << ", msglen=" << oneMsg.size() << ", msg=" << oneMsg
+                 << ", remainlen=" << m_transport->GetRemainLen();
         // echo返回
         m_pProcess->EchoIt(oneMsg);
     }
@@ -308,6 +316,7 @@ void ClientCtx::set_write_idle_ctxnew() {
 }
 
 bool ClientCtx::set_read_ctxnew() {
+    LOG_INFO << "set_read_ctxnew --------read state";
     return set_ctx_flags_ctxnew(EV_PERSIST | EV_READ, &(m_ctx->m_rdEvent), read_flag);
 }
 bool ClientCtx::set_write_ctxnew() {

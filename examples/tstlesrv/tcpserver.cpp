@@ -53,7 +53,7 @@ void OutPeerIpInfo( sockaddr* addrp, int iCliFd, Item_t * item  ) {
 
     item->m_ip   = sPeerIp;
     item->m_port = ::ntohs(port);
-    LOG_INFO << sType << ", Client socket: " << iCliFd << ", sPeerIp: " << sPeerIp
+    LOG_INFO << sType << ", client socket: " << iCliFd << ", peerip: " << sPeerIp
              << ", ip: " << ip << ", port: " << ::ntohs(port);
 }
 

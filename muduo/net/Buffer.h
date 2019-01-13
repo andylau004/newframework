@@ -91,6 +91,7 @@ public:
     size_t readableBytes() const
     { return writerIndex_ - readerIndex_; }
 
+    // 可写的空白缓冲区长度
     size_t writableBytes() const
     { return buffer_.size() - writerIndex_; }
 
@@ -345,6 +346,13 @@ public:
         ::memcpy(&be32, peek(), sizeof be32);
         return sockets::networkToHost32(be32);
     }
+    // 新增此接口 自己使用 -- 提取4字节长度,此长度为body数据长度值
+    int32_t peekInt32_FromReserve() const {
+//        assert(readableBytes() >= sizeof(int32_t));
+        int32_t be32 = 0;
+        ::memcpy(&be32, begin(), sizeof be32);
+        return sockets::networkToHost32(be32);
+    }
 
     int16_t peekInt16() const
     {
@@ -423,10 +431,12 @@ public:
     /* 从套接字（内核tcp缓冲区）中读取数据放到读缓冲区中 */
     int/*ssize_t*/ readFd(int fd, int* savedErrno);
 
-private:
 
     char* begin()
     { return &*buffer_.begin(); }
+
+private:
+
 
     const char* begin() const
     { return &*buffer_.begin(); }

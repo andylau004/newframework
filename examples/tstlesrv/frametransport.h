@@ -59,6 +59,7 @@ public:
     virtual void reset_write_state();
 
     std::string GetMsg();
+    int32_t     GetRemainLen();
 
     virtual int32_t     write_buffer(const uint8_t * buf, uint32_t len);
 

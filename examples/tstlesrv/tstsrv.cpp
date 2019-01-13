@@ -108,23 +108,25 @@ void tst_some_fun() {
     }
 }
 
+
+void tst_null_event() {
+    puts("init a event_base!");
+    struct event_base *base; //定义一个event_base
+    base = event_base_new(); //初始化一个event_base
+    const char *x =  event_base_get_method(base); //查看用了哪个IO多路复用模型，linux一下用epoll
+    printf("METHOD:%s\n", x);
+//    int y = event_base_dispatch(base); //事件循环。因为我们这边没有注册事件，所以会直接退出
+    int y = event_base_loop(base, 0); //事件循环。因为我们这边没有注册事件，所以会直接退出
+    event_base_free(base);  //销毁libevent
+}
+
 int tst_libeventsrv_entry(int argc, char *argv[]) {
-    int tmp_array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    LOG_INFO << "array_size(tmp_array)=" << array_size(tmp_array) * sizeof(int);
+//    int tmp_array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//    LOG_INFO << "array_size(tmp_array)=" << array_size(tmp_array) * sizeof(int);
 
-
-//    {
-//        puts("init a event_base!");
-//        struct event_base *base; //定义一个event_base
-//        base = event_base_new(); //初始化一个event_base
-//        const char *x =  event_base_get_method(base); //查看用了哪个IO多路复用模型，linux一下用epoll
-//        printf("METHOD:%s\n", x);
-//    //    int y = event_base_dispatch(base); //事件循环。因为我们这边没有注册事件，所以会直接退出
-//        int y = event_base_loop(base, 0);
-//        LOG_INFO << "y=" << y;
-//        event_base_free(base);  //销毁libevent
-//    }
+//    tst_null_event();
 //    return 1;
+
 
     CTcpServer myserver;
     myserver.init(10091, 1);
