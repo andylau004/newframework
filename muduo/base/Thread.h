@@ -13,7 +13,13 @@
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
+
+#include <functional>
+#include <iostream>
+
+#include <memory>
 #include <pthread.h>
+
 
 namespace muduo
 {
@@ -22,7 +28,9 @@ class Thread : boost::noncopyable
 {
 public:
     typedef boost::function<void ()> ThreadFunc;
+//    typedef std::function<void ()> ThreadFunc;
 
+//    explicit Thread(ThreadFunc, const string& name = string());
     explicit Thread(const ThreadFunc&, const string& name = string());
 #ifdef __GXX_EXPERIMENTAL_CXX0X__
     explicit Thread(ThreadFunc&&, const string& name = string());

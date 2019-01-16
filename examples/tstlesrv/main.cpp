@@ -14,9 +14,9 @@
 
 
 
-#include "tst_1.h"
+//#include "tst_1.h"
 
-#include "codeconvert.h"
+//#include "codeconvert.h"
 
 
 #include "muduo/net/InetAddress.h"
@@ -45,6 +45,12 @@ using namespace muduo::net;
 
 #include "tstsrv.h"
 
+#include "tstthreadpool.h"
+
+#include "taskthreadpool.h"
+
+
+//extern  CTaskThreadPool g_tasks_handler;
 
 
 class CTest {
@@ -113,6 +119,15 @@ int main(int argc, char *argv[])
     Logger::setLogLevel(Logger::DEBUG);
     LOG_INFO << "pid = " << getpid() << ", tid = " << CurrentThread::tid();
 
+    tst_tp_1();
+    return 1;
+
+//    g_tasks_handler.start();
+    ::sleep( 10 );
+    return 1;
+
+    tst_tp_1();
+    return 1;
 
     return tst_libeventsrv_entry( argc, argv );
 

@@ -120,6 +120,8 @@ void tst_null_event() {
     event_base_free(base);  //销毁libevent
 }
 
+
+
 int tst_libeventsrv_entry(int argc, char *argv[]) {
 //    int tmp_array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 //    LOG_INFO << "array_size(tmp_array)=" << array_size(tmp_array) * sizeof(int);
@@ -129,7 +131,7 @@ int tst_libeventsrv_entry(int argc, char *argv[]) {
 
 
     CTcpServer myserver;
-    myserver.init(10091, 1);
+    myserver.init(10091, 4);
     myserver.start();
     return 1;
 

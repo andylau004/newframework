@@ -24,7 +24,7 @@ EventLoopThread::EventLoopThread(const ThreadInitCallback& cb,
                                  const string& name)
     : loop_(NULL),
       exiting_(false),
-      thread_(boost::bind(&EventLoopThread::threadFunc, this), name),
+      thread_(/*std::bind*/boost::bind(&EventLoopThread::threadFunc, this), name),
       mutex_(),
       cond_(mutex_),
       callback_(cb)

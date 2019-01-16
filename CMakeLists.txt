@@ -60,6 +60,11 @@ add_subdirectory(muduo/net)
 
 add_subdirectory(examples)
 
+message("==> CMAKE_SOURCE_DIR")
+message(${CMAKE_SOURCE_DIR})
+message("==> CMAKE_SOURCE_DIR")
+
+
 
 
 #target_link_libraries(${PROJECT_NAME} uuid pthread log4cplus boost_thread boost_system boost_filesystem )

@@ -6,6 +6,15 @@ project(tstlesrv)
 set(EXECUTABLE_OUTPUT_PATH ../../)
 
 
+add_definitions(
+
+#    -DH_HAVE_CAMERON314_CONCURRENTQUEUE
+    -DH_HAVE_BOOST
+)
+message("==> aaaaaaaaaaaaaaaaaaaaaaa")
+message(${EXECUTABLE_OUTPUT_PATH})
+message("==> bbbbbbbbbbbbbbbbbbbbbbb")
+
 
 add_executable(${PROJECT_NAME}
     tstsrv.h tstsrv.cpp
@@ -18,6 +27,9 @@ add_executable(${PROJECT_NAME}
     sigslot.h sigslot.cc
     basetransport.h basetransport.cpp
     frametransport.h frametransport.cpp
+    tstthreadpool.h tstthreadpool.cpp
+    taskthreadpool.h taskthreadpool.cpp
+    concurrentqueue.h concurrentqueue.cpp
     main.cpp)
 
 

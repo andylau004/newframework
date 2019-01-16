@@ -32,23 +32,35 @@ set(base_SRCS
 
     Basic.cpp
 #  AsyncLogging.cc
-  Condition.cc
+Condition.cc
+Condition.h
   CountDownLatch.cc
-  Date.cc
+    CountDownLatch.h
+    Date.cc
+    Date.h
   Exception.cc
+  Exception.h
 #  FileUtil.cc
 #  LogFile.cc
   Logging.cc
+  Logging.h
   LogStream.cc
+  LogStream.h
 #  ProcessInfo.cc
   Timestamp.cc
+  Timestamp.h
   TimeZone.cc
+  TimeZone.h
   Thread.cc
+  Thread.h
   ThreadPool.cc
+  ThreadPool.h
   convert.cpp
+  convert.h
   common.cpp
   common.h
   timerutil.cpp
+  timerutil.h
 
     noncopyable.h
     Singleton.h
@@ -56,7 +68,8 @@ set(base_SRCS
   )
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gdwarf-2 -Wno-deprecated -ffunction-sections -W -Wall -pthread -Wno-missing-braces -Wparentheses -std=c++11" )
-#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gdwarf-2 -Wno-deprecated -ffunction-sections -W -Wall -pthread -Wno-missing-braces -Wparentheses" )
+
+#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gdwarf-2 -Wno-deprecated -ffunction-sections -W -Wall -pthread -Wno-missing-braces -Wparentheses " )
 
 add_library(muduo_base ${base_SRCS})
 target_link_libraries(muduo_base pthread rt boost_system)
