@@ -43,7 +43,7 @@
 
 
 
-extern void tst_c_newfun();
+extern void tst_mt_rdwr_task_queues();
 
 
 
@@ -430,7 +430,7 @@ void merge(const int batch)
 
 int tst_tp_1()
 {
-    tst_c_newfun();
+    tst_mt_rdwr_task_queues();
     return 1;
 
     bool kKeepIntermediateFiles = false;
@@ -475,12 +475,31 @@ int tst_tp_1()
 
 
 
+class CBigString {
+public:
+    CBigString() {
+    }
+    CBigString( const char* lpszVal ) {
+        m_str_val = lpszVal;
+    }
+    virtual ~CBigString() {
+    }
+public:
+
+private:
+    std::string   m_str_val;
+
+};
+
 
 
 // 安全无锁队列基准测试
 
 
-#ifdef H_HAVE_BOOST
+#ifdef H_USE_BLOCKINGQUEUE
+        muduo::BlockingQueue < CBigString >*  g_pending_task_ = nullptr;
+
+#elif defined(H_HAVE_BOOST)
         boost::lockfree::queue<int64_t>*      g_pending_task_ = nullptr;
 
 #elif defined(H_HAVE_CAMERON314_CONCURRENTQUEUE)
@@ -494,7 +513,7 @@ int tst_tp_1()
 
 
 //const int64_t max_task_count = 10 * 1000;
-const int64_t max_task_count = 10 * 1000;
+const int64_t max_task_count = 100 * 10000;
 
 
 class CAddThreadPool {
@@ -505,7 +524,9 @@ public:
           cur_work_id(0)//,
 //          task_handler_thread(boost::bind(&CAddThreadPool::handler_threadFunc, this), std::string("handlertask  thread"))
     {
-#ifdef H_HAVE_BOOST
+#ifdef H_USE_BLOCKINGQUEUE
+        g_pending_task_ = new muduo::BlockingQueue< CBigString >();
+#elif defined(H_HAVE_BOOST)
         const size_t kPendingFunctorCount = 1024 * 16;
         g_pending_task_ = new boost::lockfree::queue<int64_t>(kPendingFunctorCount);
 #elif defined(H_HAVE_CAMERON314_CONCURRENTQUEUE)
@@ -584,7 +605,14 @@ private:
             if (itmp < max_task_count) {
                 cur_work_id ++;
 
-#ifdef H_HAVE_BOOST
+#ifdef H_USE_BLOCKINGQUEUE
+        std::string tmp_data = ("12asdfasjdfkjlasdjfjoq2ui3ie3uqwrqwerqwerqwerqwerqwerqwer");
+        tmp_data += tmp_data;tmp_data += tmp_data;tmp_data += tmp_data;tmp_data += tmp_data;
+
+        CBigString tmp_big_string(tmp_data.c_str());
+        g_pending_task_->put(tmp_big_string);
+
+#elif defined(H_HAVE_BOOST)
         while (!g_pending_task_->push(itmp)) {// 75
         }
 #elif defined(H_HAVE_CAMERON314_CONCURRENTQUEUE)// 63
@@ -612,7 +640,21 @@ private:
         int64_t outval    = -1;
 //        int     workcount = 0;
 
-#ifdef H_HAVE_BOOST
+#ifdef H_USE_BLOCKINGQUEUE
+        while (1) {
+            if ( cur_work_id <= 0 || cur_workcount.load() >= max_task_count) {
+//            if ( cur_work_id <= 0 /*workcount.load() >= max_task_count*/) {
+                LOG_DEBUG << "handler_threadFunc out!!!!!!!!!!!!!";
+                break;
+            }
+            cur_work_id --;
+            cur_workcount ++;
+
+            CBigString tmpRet;
+            tmpRet = g_pending_task_->take();
+        }
+
+#elif defined(H_HAVE_BOOST)
 
         while (1)
         {
@@ -688,6 +730,8 @@ private:
     }
 
 private:
+
+
     // 业务线程已经处理的任务总个数
     std::atomic<std::int64_t> handle_data_count;
 
@@ -711,7 +755,8 @@ private:
 };
 
 
-void tst_c_newfun() {
+// 多线程读写　测试任务队列　例子
+void tst_mt_rdwr_task_queues() {
 
     Timestamp startRead = Timestamp::now();
 
@@ -723,7 +768,10 @@ void tst_c_newfun() {
         add_threadpool.start();
         add_threadpool.joinAll();
 
-#ifdef H_HAVE_BOOST
+#ifdef H_USE_BLOCKINGQUEUE
+//        tmpRet = g_pending_task_->take();
+
+#elif defined(H_HAVE_BOOST)
         g_pending_task_->reserve(0);
 #elif defined(H_HAVE_CAMERON314_CONCURRENTQUEUE)
         moodycamel::ConcurrentQueue<int64_t> ctmp;
@@ -742,7 +790,6 @@ void tst_c_newfun() {
     intervaltime *= 1000;
 
     LOG_DEBUG << "all cost time: " << intervaltime << ", cost: " << intervaltime / workwheel  << " task/ms";
-
 
 //    for (int i = 0; i != 123; ++i)
 //        g_q_ints.enqueue(i);

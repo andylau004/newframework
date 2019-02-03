@@ -60,6 +60,7 @@ public:
         T front(queue_.front());
 #endif
         queue_.pop_front();
+//        return std::move(front);
         return front;
     }
 

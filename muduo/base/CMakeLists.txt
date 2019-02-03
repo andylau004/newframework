@@ -3,6 +3,10 @@
 
 set(base_SRCS
 
+    BoundedBlockingQueue.h
+    BlockingQueue.h
+
+
     duration.h
     duration.inl.h
     duration.cc

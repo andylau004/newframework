@@ -8,9 +8,12 @@
 //#include <thrift/transport/TTransport.h>
 //#include <thrift/transport/TBufferTransports.h>
 
-//using namespace apache::thrift;
 
 #include "basetransport.h"
+
+
+//using namespace apache::thrift;
+
 
 
 
