@@ -8,8 +8,10 @@ set(EXECUTABLE_OUTPUT_PATH ../../)
 
 add_definitions(
 
+    -DH_USE_BLOCKINGQUEUE
+
 #    -DH_HAVE_CAMERON314_CONCURRENTQUEUE
-    -DH_HAVE_BOOST
+#    -DH_HAVE_BOOST
 )
 message("==> aaaaaaaaaaaaaaaaaaaaaaa")
 message(${EXECUTABLE_OUTPUT_PATH})

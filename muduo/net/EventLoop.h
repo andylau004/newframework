@@ -41,17 +41,15 @@ class TimerQueue;
 ///
 /// This is an interface class, so don't expose too much details.
 
-/*
-
-class EventLoop: 事件循环。
-先看一个调用链：EventLoop::loop()->Poller::poll()通过此调用链获得一个vector<Channel*> activeChannels_的就绪事件集合，
-再遍历该容器，执行每个Channel的Channel::handleEvent()完成相应就绪事件回调。
-至此一个完整的Reactor模式即完成。
-注意这里的Reactor遵循one loop per thread即所在一个线程中完成，故并没有涉及到线程同步机制，
-以后可能会有其它线程调用这三个类，则通过线程转移函数将一些操作转移到一个线程中完成。
-(若一个函数既可能加锁情况下使用有可能在未加锁情况下使用，那么就拆成两个函数，
-需要加锁的函数去调用不需要加锁的函数。
-线程转移实现就可以通过两个函数实现，如：假设类one隶属于线程B，线程A调用one的方法fun，fun向one注册一个回调，从而将具体操作转移到one的所属线程B中去执行。)
+/* 
+    class EventLoop: 事件循环
+    先看一个调用链：EventLoop::loop()->Poller::poll()通过此调用链获得一个vector<Channel*> activeChannels_的就绪事件集合，
+    再遍历该容器，执行每个Channel的Channel::handleEvent()完成相应就绪事件回调。
+    至此一个完整的Reactor模式即完成。
+    注意这里的Reactor遵循one loop per thread即所在一个线程中完成，故并没有涉及到线程同步机制，
+    以后可能会有其它线程调用这三个类，则通过线程转移函数将一些操作转移到一个线程中完成。
+    (若一个函数既可能加锁情况下使用有可能在未加锁情况下使用，那么就拆成两个函数，需要加锁的函数去调用不需要加锁的函数。
+    线程转移实现就可以通过两个函数实现，如：假设类one隶属于线程B，线程A调用one的方法fun，fun向one注册一个回调，从而将具体操作转移到one的所属线程B中去执行。)
 */
 class EventLoop : boost::noncopyable
 {
