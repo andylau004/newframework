@@ -122,6 +122,7 @@ void tst_null_event() {
 
 
 
+
 int tst_libeventsrv_entry(int argc, char *argv[]) {
 //    int tmp_array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 //    LOG_INFO << "array_size(tmp_array)=" << array_size(tmp_array) * sizeof(int);

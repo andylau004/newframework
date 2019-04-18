@@ -60,7 +60,7 @@ EPollPoller::~EPollPoller()
 
 Timestamp EPollPoller::poll(int timeoutMs, ChannelList* activeChannels)
 {
-    char tmpbuffer[ 4098 ];
+    char tmpbuffer[ 4098 ] = {0};
     char* pPtr = tmpbuffer;
     for ( ChannelMap::iterator itKv = channels_.begin(); itKv != channels_.end(); itKv ++ ) {
         sprintf( pPtr, "channelfd=%d ", itKv->first );
@@ -85,8 +85,7 @@ Timestamp EPollPoller::poll(int timeoutMs, ChannelList* activeChannels)
     }
     else {
         // error happens, log uncommon ones
-        if (savedErrno != EINTR)
-        {
+        if (savedErrno != EINTR) {
             errno = savedErrno;
             LOG_SYSERR << "EPollPoller::poll()";
         } else {

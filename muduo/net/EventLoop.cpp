@@ -142,12 +142,10 @@ void EventLoop::loop()
         pollReturnTime_ = poller_->poll(kPollTimeMs, &activeChannels_);
         ++iteration_;
 
-        if (Logger::logLevel() <= Logger::TRACE) {
+        if (Logger::logLevel() <= Logger::TRACE)
             printActiveChannels();
-        }
-        if ( activeChannels_.size() ) {
+        if ( activeChannels_.size() )
 //            LOG_INFO << "activeChannels_size=" << activeChannels_.size();
-        }
 
         // TODO sort channel by priority
         eventHandling_ = true;
@@ -158,7 +156,7 @@ void EventLoop::loop()
         currentActiveChannel_ = NULL;
         eventHandling_ = false;
 
-        //执行等待队列中的回调函数
+        // 执行等待队列中的回调函数
         doPendingFunctors();
     }
 
