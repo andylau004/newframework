@@ -1,43 +1,33 @@
-/*
- * exception.h
- *
- *  Created on: May 14, 2014
- *      Author: wanghuan
- */
+// Use of this source code is governed by a BSD-style license
+// that can be found in the License file.
+//
+// Author: Shuo Chen (chenshuo at chenshuo dot com)
 
-#ifndef EXCEPTION_H_
-#define EXCEPTION_H_
+#ifndef MUDUO_BASE_EXCEPTION_H
+#define MUDUO_BASE_EXCEPTION_H
 
-#include <string>
-#include <sstream>
+#include <muduo/base/Types.h>
 #include <exception>
 
-class ErasureException : public std::exception
+namespace muduo
 {
-public:
-	ErasureException(int errcode, const std::string& verbose = "") throw()
-	:std::exception(), mErrorCode(errcode), mVerbose(verbose)
-    {
-        std::ostringstream oss;
-        oss << "Error Code: " << mErrorCode << " " << mVerbose;
-        mWhat = oss.str();
-    }
 
-	virtual ~ErasureException() throw() {}
+class Exception : public std::exception
+{
+ public:
+  explicit Exception(const char* what);
+  explicit Exception(const string& what);
+  virtual ~Exception() throw();
+  virtual const char* what() const throw();
+  const char* stackTrace() const throw();
 
-public: // From std::exception
-    virtual const char* what() const throw() { return mWhat.c_str(); }
+ private:
+  void fillStackTrace();
 
-public:
-    int get_error_code() const throw() { return mErrorCode; }
-
-    const std::string& get_verbose() const throw() { return mVerbose; }
-
-protected:
-   int mErrorCode;
-   std::string mWhat;
-   std::string mVerbose;
+  string message_;
+  string stack_;
 };
 
+}
 
-#endif /* EXCEPTION_H_ */
+#endif  // MUDUO_BASE_EXCEPTION_H
