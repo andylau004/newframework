@@ -38,7 +38,7 @@
   "devDependencies": {
     "buffer-equals": "^1.0.3",
     "commander": "2.1.x",
-    "connect": "2.7.x",
+    "connect": "3.7.x",
     "istanbul": "^0.3.5",
     "run-browser": "^2.0.1",
     "tape": "~3.5.0"
